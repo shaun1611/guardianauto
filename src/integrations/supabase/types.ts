@@ -14,7 +14,204 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      complaints: {
+        Row: {
+          ai_causes: string | null
+          ai_recommendation: string | null
+          created_at: string
+          description: string | null
+          id: string
+          severity: string | null
+          symptom: string
+          user_id: string
+          vehicle_id: string
+        }
+        Insert: {
+          ai_causes?: string | null
+          ai_recommendation?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          severity?: string | null
+          symptom: string
+          user_id: string
+          vehicle_id: string
+        }
+        Update: {
+          ai_causes?: string | null
+          ai_recommendation?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          severity?: string | null
+          symptom?: string
+          user_id?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "complaints_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reminders: {
+        Row: {
+          completed: boolean
+          created_at: string
+          due_date: string | null
+          due_odometer: number | null
+          id: string
+          kind: Database["public"]["Enums"]["reminder_kind"]
+          notes: string | null
+          title: string
+          user_id: string
+          vehicle_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          due_date?: string | null
+          due_odometer?: number | null
+          id?: string
+          kind: Database["public"]["Enums"]["reminder_kind"]
+          notes?: string | null
+          title: string
+          user_id: string
+          vehicle_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          due_date?: string | null
+          due_odometer?: number | null
+          id?: string
+          kind?: Database["public"]["Enums"]["reminder_kind"]
+          notes?: string | null
+          title?: string
+          user_id?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_history: {
+        Row: {
+          created_at: string
+          id: string
+          labour_cost: number | null
+          notes: string | null
+          odometer: number
+          parts_replaced: string | null
+          service_center: string | null
+          service_date: string
+          total_cost: number | null
+          user_id: string
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          labour_cost?: number | null
+          notes?: string | null
+          odometer: number
+          parts_replaced?: string | null
+          service_center?: string | null
+          service_date: string
+          total_cost?: number | null
+          user_id: string
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          labour_cost?: number | null
+          notes?: string | null
+          odometer?: number
+          parts_replaced?: string | null
+          service_center?: string | null
+          service_date?: string
+          total_cost?: number | null
+          user_id?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_history_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vehicles: {
+        Row: {
+          bs_standard: Database["public"]["Enums"]["bs_standard"]
+          created_at: string
+          engine_oil_grade: string | null
+          fuel_type: Database["public"]["Enums"]["fuel_type"]
+          id: string
+          insurance_expiry: string | null
+          insurance_provider: string | null
+          manufacturer: string
+          model: string
+          odometer: number
+          puc_expiry: string | null
+          puc_number: string | null
+          registration_number: string
+          updated_at: string
+          user_id: string
+          year: number
+        }
+        Insert: {
+          bs_standard: Database["public"]["Enums"]["bs_standard"]
+          created_at?: string
+          engine_oil_grade?: string | null
+          fuel_type: Database["public"]["Enums"]["fuel_type"]
+          id?: string
+          insurance_expiry?: string | null
+          insurance_provider?: string | null
+          manufacturer: string
+          model: string
+          odometer?: number
+          puc_expiry?: string | null
+          puc_number?: string | null
+          registration_number: string
+          updated_at?: string
+          user_id: string
+          year: number
+        }
+        Update: {
+          bs_standard?: Database["public"]["Enums"]["bs_standard"]
+          created_at?: string
+          engine_oil_grade?: string | null
+          fuel_type?: Database["public"]["Enums"]["fuel_type"]
+          id?: string
+          insurance_expiry?: string | null
+          insurance_provider?: string | null
+          manufacturer?: string
+          model?: string
+          odometer?: number
+          puc_expiry?: string | null
+          puc_number?: string | null
+          registration_number?: string
+          updated_at?: string
+          user_id?: string
+          year?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +220,17 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      bs_standard: "BS4" | "BS6"
+      fuel_type: "Petrol" | "Diesel"
+      reminder_kind:
+        | "oil_change"
+        | "service"
+        | "puc"
+        | "insurance"
+        | "battery"
+        | "tyres"
+        | "air_filter"
+        | "brake"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +357,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      bs_standard: ["BS4", "BS6"],
+      fuel_type: ["Petrol", "Diesel"],
+      reminder_kind: [
+        "oil_change",
+        "service",
+        "puc",
+        "insurance",
+        "battery",
+        "tyres",
+        "air_filter",
+        "brake",
+      ],
+    },
   },
 } as const
