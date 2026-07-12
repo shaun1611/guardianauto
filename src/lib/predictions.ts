@@ -10,8 +10,11 @@ export type Vehicle = {
   fuel_type: "Petrol" | "Diesel";
   bs_standard: "BS4" | "BS6";
   engine_oil_grade: string | null;
+  registration_number: string;
   odometer: number;
+  puc_number: string | null;
   puc_expiry: string | null;
+  insurance_provider: string | null;
   insurance_expiry: string | null;
 };
 
