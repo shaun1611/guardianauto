@@ -12,11 +12,12 @@ export type Vehicle = {
   engine_oil_grade: string | null;
   registration_number: string;
   odometer: number;
-  puc_number: string | null;
-  puc_expiry: string | null;
+  co_emission: number | null;
+  hc_emission: number | null;
   insurance_provider: string | null;
   insurance_expiry: string | null;
 };
+
 
 export type ServiceRecord = {
   id: string;
