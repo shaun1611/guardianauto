@@ -145,9 +145,10 @@ function Dashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <CertCard title="Pollution Certificate (PUC)" number={selected.puc_number} expiry={selected.puc_expiry} status={pucStatus} icon={ShieldCheck} />
+        <EmissionCard vehicle={selected} status={emissions} />
         <CertCard title="Insurance" number={selected.insurance_provider} expiry={selected.insurance_expiry} status={insStatus} icon={Calendar} />
       </div>
+
 
       <Card className="card-elevated">
         <CardHeader><CardTitle>Service History</CardTitle></CardHeader>
