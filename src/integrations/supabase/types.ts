@@ -158,17 +158,17 @@ export type Database = {
       vehicles: {
         Row: {
           bs_standard: Database["public"]["Enums"]["bs_standard"]
+          co_emission: number | null
           created_at: string
           engine_oil_grade: string | null
           fuel_type: Database["public"]["Enums"]["fuel_type"]
+          hc_emission: number | null
           id: string
           insurance_expiry: string | null
           insurance_provider: string | null
           manufacturer: string
           model: string
           odometer: number
-          puc_expiry: string | null
-          puc_number: string | null
           registration_number: string
           updated_at: string
           user_id: string
@@ -176,17 +176,17 @@ export type Database = {
         }
         Insert: {
           bs_standard: Database["public"]["Enums"]["bs_standard"]
+          co_emission?: number | null
           created_at?: string
           engine_oil_grade?: string | null
           fuel_type: Database["public"]["Enums"]["fuel_type"]
+          hc_emission?: number | null
           id?: string
           insurance_expiry?: string | null
           insurance_provider?: string | null
           manufacturer: string
           model: string
           odometer?: number
-          puc_expiry?: string | null
-          puc_number?: string | null
           registration_number: string
           updated_at?: string
           user_id: string
@@ -194,17 +194,17 @@ export type Database = {
         }
         Update: {
           bs_standard?: Database["public"]["Enums"]["bs_standard"]
+          co_emission?: number | null
           created_at?: string
           engine_oil_grade?: string | null
           fuel_type?: Database["public"]["Enums"]["fuel_type"]
+          hc_emission?: number | null
           id?: string
           insurance_expiry?: string | null
           insurance_provider?: string | null
           manufacturer?: string
           model?: string
           odometer?: number
-          puc_expiry?: string | null
-          puc_number?: string | null
           registration_number?: string
           updated_at?: string
           user_id?: string

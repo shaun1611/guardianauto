@@ -1,0 +1,1 @@
+ALTER TABLE public.vehicles DROP COLUMN IF EXISTS puc_number, DROP COLUMN IF EXISTS puc_expiry, ADD COLUMN IF NOT EXISTS co_emission numeric, ADD COLUMN IF NOT EXISTS hc_emission numeric;
