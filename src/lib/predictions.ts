@@ -130,9 +130,14 @@ export function healthScore(vehicle: Vehicle, history: ServiceRecord[]): number 
   // Boost for service frequency
   if (history.length >= 5) score += 5;
   else if (history.length >= 2) score += 2;
-  // PUC/Insurance
+  // Emissions & Insurance
   const now = Date.now();
-  if (vehicle.puc_expiry && new Date(vehicle.puc_expiry).getTime() < now) score -= 5;
+  // BS6 CO limit ~0.3%, BS4 ~0.5%; HC BS6 ~200 ppm, BS4 ~750 ppm.
+  const coLimit = vehicle.bs_standard === "BS6" ? 0.3 : 0.5;
+  const hcLimit = vehicle.bs_standard === "BS6" ? 200 : 750;
+  if (vehicle.co_emission != null && vehicle.co_emission > coLimit) score -= 6;
+  if (vehicle.hc_emission != null && vehicle.hc_emission > hcLimit) score -= 6;
   if (vehicle.insurance_expiry && new Date(vehicle.insurance_expiry).getTime() < now) score -= 10;
+
   return Math.max(10, Math.min(100, Math.round(score)));
 }
