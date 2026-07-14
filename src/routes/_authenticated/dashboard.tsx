@@ -234,3 +234,36 @@ function oilStatus(v: Vehicle, hist: ServiceRecord[]): string {
   if (remaining < interval * 0.15) return "Due soon";
   return "Fresh";
 }
+
+function emissionStatus(v: Vehicle): { label: string; variant: "default" | "destructive" | "secondary" | "outline" } {
+  if (v.co_emission == null && v.hc_emission == null) return { label: "Not set", variant: "outline" };
+  const coLimit = v.bs_standard === "BS6" ? 0.3 : 0.5;
+  const hcLimit = v.bs_standard === "BS6" ? 200 : 750;
+  const coBad = v.co_emission != null && v.co_emission > coLimit;
+  const hcBad = v.hc_emission != null && v.hc_emission > hcLimit;
+  if (coBad || hcBad) return { label: "Over limit", variant: "destructive" };
+  const coWarn = v.co_emission != null && v.co_emission > coLimit * 0.75;
+  const hcWarn = v.hc_emission != null && v.hc_emission > hcLimit * 0.75;
+  if (coWarn || hcWarn) return { label: "Borderline", variant: "secondary" };
+  return { label: "Within limits", variant: "default" };
+}
+
+function EmissionCard({ vehicle, status }: { vehicle: Vehicle; status: ReturnType<typeof emissionStatus> }) {
+  const co = vehicle.co_emission != null ? `CO ${vehicle.co_emission}%` : "CO —";
+  const hc = vehicle.hc_emission != null ? `HC ${vehicle.hc_emission} ppm` : "HC —";
+  return (
+    <Card className="card-elevated">
+      <CardContent className="flex items-center gap-4 p-4">
+        <div className="grid h-11 w-11 place-items-center rounded-md bg-primary/10 text-primary">
+          <ShieldCheck className="h-5 w-5" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-medium">Pollution Certificate</p>
+          <p className="truncate text-xs text-muted-foreground">{co} · {hc} · limit for {vehicle.bs_standard}</p>
+        </div>
+        <Badge variant={status.variant}>{status.label}</Badge>
+      </CardContent>
+    </Card>
+  );
+}
+
