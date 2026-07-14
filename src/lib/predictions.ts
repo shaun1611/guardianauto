@@ -12,11 +12,12 @@ export type Vehicle = {
   engine_oil_grade: string | null;
   registration_number: string;
   odometer: number;
-  puc_number: string | null;
-  puc_expiry: string | null;
+  co_emission: number | null;
+  hc_emission: number | null;
   insurance_provider: string | null;
   insurance_expiry: string | null;
 };
+
 
 export type ServiceRecord = {
   id: string;
@@ -54,19 +55,22 @@ export function predictMaintenance(
   const oilInterval =
     vehicle.fuel_type === "Diesel" ? INTERVALS.oil_diesel : INTERVALS.oil_petrol;
 
+  const baseFor = (interval: number) => Math.max(lastService, km - (km % interval));
+
   const items: Array<{ label: string; interval: number; base: number; note: string }> = [
     {
       label: "Engine Oil Change",
       interval: oilInterval,
-      base: lastService || km - (km % oilInterval),
+      base: baseFor(oilInterval),
       note: `${vehicle.fuel_type} interval ${oilInterval.toLocaleString()} km`,
     },
     {
       label: "General Service",
       interval: INTERVALS.general_service,
-      base: lastService || km - (km % INTERVALS.general_service),
+      base: baseFor(INTERVALS.general_service),
       note: "Full inspection + fluids",
     },
+
     {
       label: "Brake Inspection",
       interval: INTERVALS.brake_inspection,
@@ -126,9 +130,14 @@ export function healthScore(vehicle: Vehicle, history: ServiceRecord[]): number 
   // Boost for service frequency
   if (history.length >= 5) score += 5;
   else if (history.length >= 2) score += 2;
-  // PUC/Insurance
+  // Emissions & Insurance
   const now = Date.now();
-  if (vehicle.puc_expiry && new Date(vehicle.puc_expiry).getTime() < now) score -= 5;
+  // BS6 CO limit ~0.3%, BS4 ~0.5%; HC BS6 ~200 ppm, BS4 ~750 ppm.
+  const coLimit = vehicle.bs_standard === "BS6" ? 0.3 : 0.5;
+  const hcLimit = vehicle.bs_standard === "BS6" ? 200 : 750;
+  if (vehicle.co_emission != null && vehicle.co_emission > coLimit) score -= 6;
+  if (vehicle.hc_emission != null && vehicle.hc_emission > hcLimit) score -= 6;
   if (vehicle.insurance_expiry && new Date(vehicle.insurance_expiry).getTime() < now) score -= 10;
+
   return Math.max(10, Math.min(100, Math.round(score)));
 }

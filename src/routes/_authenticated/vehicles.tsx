@@ -97,7 +97,8 @@ function VehicleForm({ onDone }: { onDone: () => void }) {
   const [form, setForm] = useState({
     manufacturer: "", model: "", year: new Date().getFullYear(), fuel_type: "Petrol" as "Petrol" | "Diesel",
     bs_standard: "BS6" as "BS4" | "BS6", engine_oil_grade: "", registration_number: "", odometer: 0,
-    puc_number: "", puc_expiry: "", insurance_provider: "", insurance_expiry: "",
+    co_emission: "" as number | "", hc_emission: "" as number | "",
+    insurance_provider: "", insurance_expiry: "",
   });
   const [saving, setSaving] = useState(false);
 
@@ -107,13 +108,19 @@ function VehicleForm({ onDone }: { onDone: () => void }) {
     const { data: userData } = await supabase.auth.getUser();
     if (!userData.user) { setSaving(false); return toast.error("Not signed in"); }
     const payload = {
-      ...form,
+      manufacturer: form.manufacturer,
+      model: form.model,
+      year: form.year,
+      fuel_type: form.fuel_type,
+      bs_standard: form.bs_standard,
+      registration_number: form.registration_number,
+      odometer: form.odometer,
       user_id: userData.user.id,
-      puc_expiry: form.puc_expiry || null,
-      insurance_expiry: form.insurance_expiry || null,
-      puc_number: form.puc_number || null,
-      insurance_provider: form.insurance_provider || null,
       engine_oil_grade: form.engine_oil_grade || null,
+      insurance_provider: form.insurance_provider || null,
+      insurance_expiry: form.insurance_expiry || null,
+      co_emission: form.co_emission === "" ? null : Number(form.co_emission),
+      hc_emission: form.hc_emission === "" ? null : Number(form.hc_emission),
     };
     const { error } = await supabase.from("vehicles").insert(payload);
     setSaving(false);
@@ -142,8 +149,8 @@ function VehicleForm({ onDone }: { onDone: () => void }) {
       <F label="Engine Oil Grade"><Input placeholder="e.g. 5W-30" value={form.engine_oil_grade} onChange={(e) => setForm({ ...form, engine_oil_grade: e.target.value })} /></F>
       <F label="Registration Number" required><Input value={form.registration_number} onChange={(e) => setForm({ ...form, registration_number: e.target.value.toUpperCase() })} required /></F>
       <F label="Current Odometer (km)" required><Input type="number" min={0} value={form.odometer} onChange={(e) => setForm({ ...form, odometer: Number(e.target.value) })} required /></F>
-      <F label="PUC Number"><Input value={form.puc_number} onChange={(e) => setForm({ ...form, puc_number: e.target.value })} /></F>
-      <F label="PUC Expiry"><Input type="date" value={form.puc_expiry} onChange={(e) => setForm({ ...form, puc_expiry: e.target.value })} /></F>
+      <F label="CO Emission (%)"><Input type="number" step="0.01" min={0} placeholder="e.g. 0.25" value={form.co_emission} onChange={(e) => setForm({ ...form, co_emission: e.target.value === "" ? "" : Number(e.target.value) })} /></F>
+      <F label="HC Emission (ppm)"><Input type="number" step="1" min={0} placeholder="e.g. 120" value={form.hc_emission} onChange={(e) => setForm({ ...form, hc_emission: e.target.value === "" ? "" : Number(e.target.value) })} /></F>
       <F label="Insurance Provider"><Input value={form.insurance_provider} onChange={(e) => setForm({ ...form, insurance_provider: e.target.value })} /></F>
       <F label="Insurance Expiry"><Input type="date" value={form.insurance_expiry} onChange={(e) => setForm({ ...form, insurance_expiry: e.target.value })} /></F>
       <div className="sm:col-span-2 flex justify-end gap-2 pt-2">
@@ -152,6 +159,7 @@ function VehicleForm({ onDone }: { onDone: () => void }) {
     </form>
   );
 }
+
 
 function F({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
