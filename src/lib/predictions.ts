@@ -55,7 +55,9 @@ export function predictMaintenance(
   const oilInterval =
     vehicle.fuel_type === "Diesel" ? INTERVALS.oil_diesel : INTERVALS.oil_petrol;
 
-  const items: Array<{ label: string; interval: number; base: number; note: string }> = [
+  const baselineKm = km - (km % oilInterval);
+  const baseOil = Math.max(lastService, baselineKm);
+
     {
       label: "Engine Oil Change",
       interval: oilInterval,
