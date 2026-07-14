@@ -63,8 +63,9 @@ function Dashboard() {
     odometer: s.odometer,
   }));
 
-  const pucStatus = certStatus(selected.puc_expiry);
   const insStatus = certStatus(selected.insurance_expiry);
+  const emissions = emissionStatus(selected);
+
 
   return (
     <div className="space-y-6">
