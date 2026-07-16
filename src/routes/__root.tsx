@@ -77,13 +77,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AutoMind — AI Vehicle Maintenance Assistant" },
+      { title: "GuardianAuto — AI Vehicle Maintenance Assistant" },
       {
         name: "description",
         content:
           "Smart maintenance assistant for passenger cars. AI-driven service predictions, part-failure alerts, OBD diagnostics, complaint analysis and reminders.",
       },
-      { property: "og:title", content: "AutoMind — AI Vehicle Maintenance Assistant" },
+      { property: "og:title", content: "GuardianAuto — AI Vehicle Maintenance Assistant" },
       { property: "og:description", content: "AI-driven service predictions, OBD diagnostics and reminders for your car." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

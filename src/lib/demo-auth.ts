@@ -1,8 +1,8 @@
 import { supabase } from "@/integrations/supabase/client";
 
 // Shared demo account — every visitor is auto-signed-in as this user.
-const DEMO_EMAIL = "demo-shared@automind.app";
-const DEMO_PASSWORD = "automind-demo-shared-2026";
+const DEMO_EMAIL = "demo-shared@guardianauto.app";
+const DEMO_PASSWORD = "guardianauto-demo-shared-2026";
 
 let inflight: Promise<void> | null = null;
 
