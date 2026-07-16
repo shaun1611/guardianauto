@@ -28,7 +28,7 @@ export function AppSidebar() {
           <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-hero text-primary-foreground">
             <Car className="h-4 w-4" />
           </div>
-          {!collapsed && <span className="font-display text-base font-bold">AutoMind</span>}
+          {!collapsed && <span className="font-display text-base font-bold">GuardianAuto</span>}
         </div>
       </SidebarHeader>
       <SidebarContent>
