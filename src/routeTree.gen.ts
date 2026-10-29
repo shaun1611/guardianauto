@@ -18,6 +18,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedObdRouteImport } from './routes/_authenticated/obd'
 import { Route as AuthenticatedPartFailureRouteImport } from './routes/_authenticated/part-failure'
 import { Route as AuthenticatedPredictionsRouteImport } from './routes/_authenticated/predictions'
+import { Route as AuthenticatedPredictionsBackupRouteImport } from './routes/_authenticated/predictions-backup'
 import { Route as AuthenticatedRemindersRouteImport } from './routes/_authenticated/reminders'
 import { Route as AuthenticatedServiceHistoryRouteImport } from './routes/_authenticated/service-history'
 import { Route as AuthenticatedVehiclesRouteImport } from './routes/_authenticated/vehicles'
@@ -68,6 +69,12 @@ const AuthenticatedPredictionsRoute =
     path: '/predictions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPredictionsBackupRoute =
+  AuthenticatedPredictionsBackupRouteImport.update({
+    id: '/predictions-backup',
+    path: '/predictions-backup',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedRemindersRoute = AuthenticatedRemindersRouteImport.update({
   id: '/reminders',
   path: '/reminders',
@@ -94,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/obd': typeof AuthenticatedObdRoute
   '/part-failure': typeof AuthenticatedPartFailureRoute
   '/predictions': typeof AuthenticatedPredictionsRoute
+  '/predictions-backup': typeof AuthenticatedPredictionsBackupRoute
   '/reminders': typeof AuthenticatedRemindersRoute
   '/service-history': typeof AuthenticatedServiceHistoryRoute
   '/vehicles': typeof AuthenticatedVehiclesRoute
@@ -107,6 +115,7 @@ export interface FileRoutesByTo {
   '/obd': typeof AuthenticatedObdRoute
   '/part-failure': typeof AuthenticatedPartFailureRoute
   '/predictions': typeof AuthenticatedPredictionsRoute
+  '/predictions-backup': typeof AuthenticatedPredictionsBackupRoute
   '/reminders': typeof AuthenticatedRemindersRoute
   '/service-history': typeof AuthenticatedServiceHistoryRoute
   '/vehicles': typeof AuthenticatedVehiclesRoute
@@ -122,6 +131,7 @@ export interface FileRoutesById {
   '/_authenticated/obd': typeof AuthenticatedObdRoute
   '/_authenticated/part-failure': typeof AuthenticatedPartFailureRoute
   '/_authenticated/predictions': typeof AuthenticatedPredictionsRoute
+  '/_authenticated/predictions-backup': typeof AuthenticatedPredictionsBackupRoute
   '/_authenticated/reminders': typeof AuthenticatedRemindersRoute
   '/_authenticated/service-history': typeof AuthenticatedServiceHistoryRoute
   '/_authenticated/vehicles': typeof AuthenticatedVehiclesRoute
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/obd'
     | '/part-failure'
     | '/predictions'
+    | '/predictions-backup'
     | '/reminders'
     | '/service-history'
     | '/vehicles'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/obd'
     | '/part-failure'
     | '/predictions'
+    | '/predictions-backup'
     | '/reminders'
     | '/service-history'
     | '/vehicles'
@@ -164,6 +176,7 @@ export interface FileRouteTypes {
     | '/_authenticated/obd'
     | '/_authenticated/part-failure'
     | '/_authenticated/predictions'
+    | '/_authenticated/predictions-backup'
     | '/_authenticated/reminders'
     | '/_authenticated/service-history'
     | '/_authenticated/vehicles'
@@ -241,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPredictionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/predictions-backup': {
+      id: '/_authenticated/predictions-backup'
+      path: '/predictions-backup'
+      fullPath: '/predictions-backup'
+      preLoaderRoute: typeof AuthenticatedPredictionsBackupRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/reminders': {
       id: '/_authenticated/reminders'
       path: '/reminders'
@@ -271,6 +291,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedObdRoute: typeof AuthenticatedObdRoute
   AuthenticatedPartFailureRoute: typeof AuthenticatedPartFailureRoute
   AuthenticatedPredictionsRoute: typeof AuthenticatedPredictionsRoute
+  AuthenticatedPredictionsBackupRoute: typeof AuthenticatedPredictionsBackupRoute
   AuthenticatedRemindersRoute: typeof AuthenticatedRemindersRoute
   AuthenticatedServiceHistoryRoute: typeof AuthenticatedServiceHistoryRoute
   AuthenticatedVehiclesRoute: typeof AuthenticatedVehiclesRoute
@@ -282,6 +303,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedObdRoute: AuthenticatedObdRoute,
   AuthenticatedPartFailureRoute: AuthenticatedPartFailureRoute,
   AuthenticatedPredictionsRoute: AuthenticatedPredictionsRoute,
+  AuthenticatedPredictionsBackupRoute: AuthenticatedPredictionsBackupRoute,
   AuthenticatedRemindersRoute: AuthenticatedRemindersRoute,
   AuthenticatedServiceHistoryRoute: AuthenticatedServiceHistoryRoute,
   AuthenticatedVehiclesRoute: AuthenticatedVehiclesRoute,
